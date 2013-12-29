@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd"><struts>
+	<package name="default-action" extends="struts-default">
+		<interceptors>
+			<interceptor name="loginVerifier"
+				class="com.ipu.studentsystem.studentmanagement.interceptor.LoginVerifier"></interceptor>
+			<interceptor name="sessionAuthenticator"
+				class="com.ipu.studentsystem.studentmanagement.interceptor.SessionAuthenticator"></interceptor>
+		</interceptors>
+
+		<global-results>
+			<result name="exception">/error.jsp</result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping exception="com.ipu.studentsystem.common.exception.StudentEnrollmentException"
+				result="exception" />
+		</global-exception-mappings>
+		
+		
+		<action name="loginAction"
+			class="com.ipu.studentsystem.studentmanagement.action.applicationuser.LoginAction">
+			<interceptor-ref name="loginVerifier" />
+			<interceptor-ref name="defaultStack" />
+			<result name="successfulLogin" type="redirect">homeAction</result>
+			<result name="incorrectDetails" type="dispatcher">/login.jsp</result>
+			<result name="sessionExists" type="redirect">homeAction</result>
+			<result name="input" >/login.jsp</result>
+		</action>
+
+		<action name="homeAction"
+			class="com.ipu.studentsystem.studentmanagement.action.student.GetAllStudentsAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="allStudentsFetched" type="dispatcher">/home.jsp</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+			<result name="input" type="dispatcher">/home.jsp</result>
+		</action>
+
+
+		<action name="studentForm"
+			class="com.ipu.studentsystem.studentmanagement.action.student.DisplayStudentFormAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="allCoursesFetched" type="dispatcher">/addStudentForm.jsp
+			</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+			<result name="input" type="redirect">homeAction</result>
+		</action>
+
+		<action name="addStudentAction"
+			class="com.ipu.studentsystem.studentmanagement.action.student.AddStudentAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="studentAdded" type="redirect">homeAction
+			</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+			<result name="input" type="redirect">studentForm</result>
+		</action>
+
+		<action name="deleteStudent"
+			class="com.ipu.studentsystem.studentmanagement.action.student.DeleteStudentAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="studentDeleted" type="redirect">homeAction</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+		</action>
+
+		<action name="updateStudentForm"
+			class="com.ipu.studentsystem.studentmanagement.action.student.DisplayUpdateStudentFormAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="studentFetched" type="dispatcher">/updateStudentForm.jsp
+			</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+			<result name="input" type="redirect">homeAction</result>
+		</action>
+
+		<action name="updateStudent"
+			class="com.ipu.studentsystem.studentmanagement.action.student.UpdateStudentDetailAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="studentUpdated" type="redirect">homeAction</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+			<result name="input" type="redirect">updateStudentForm</result>
+		</action>
+
+		<action name="courseViewAction"
+			class="com.ipu.studentsystem.studentmanagement.action.student.FetchStudentCourseAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="allStudentsFetched" type="dispatcher">/courseView.jsp
+			</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+		</action>
+
+		<action name="enterMarks"
+			class="com.ipu.studentsystem.studentmanagement.action.student.EditMarksMenuAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="allStudentsFetched" type="dispatcher">/addMarks.jsp</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+			<result name="input" type="dispatcher">/addMarks.jsp</result>
+		</action>
+
+		<action name="courseForm"
+			class="com.ipu.studentsystem.studentmanagement.action.student.DisplayCourseFieldsAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="allCoursesFetched" type="dispatcher">/displayCourse.jsp
+			</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+		</action>
+
+		<action name="addMarks"
+			class="com.ipu.studentsystem.studentmanagement.action.student.AddStudentMarksAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="allMarksUpdated" type="redirect">courseViewAction</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+			<result name="input" type="redirect">courseViewAction</result>
+		</action>
+
+		<action name="deleteCourse"
+			class="com.ipu.studentsystem.studentmanagement.action.student.DeleteAssignedCourseAction">
+			<interceptor-ref name="sessionAuthenticator" />
+			<interceptor-ref name="defaultStack" />
+			<result name="courseDeleted" type="redirect">courseViewAction</result>
+			<result name="noSession" type="dispatcher">/login.jsp</result>
+		</action>
+		
+		<action name="logoutAction"
+			class="com.ipu.studentsystem.studentmanagement.action.student.LogoutAction">
+			<result name="success" type="dispatcher">/login.jsp</result>
+		</action>
+	</package>
+	<constant name="struts.custom.i18n.resources" value="application" />
+</struts>

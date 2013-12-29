@@ -1,0 +1,43 @@
+@CHARSET "ISO-8859-1";
+
+#studentTable {
+	background-color: white;
+}
+
+a {
+	display: block;
+	text-decoration: none;
+	text-align: center;
+	padding: 9px 17px 9px 17px;
+	font-family: Arial;
+	font-size: 8pt;
+	font-weight: bold;
+	color: black;
+	text-transform: uppercase;
+	border-right: 1px solid #607987;
+	text-transform: uppercase;
+	letter-spacing: .08em
+}
+
+#headerRow {
+	background-color: black;
+	color: white;
+}
+
+tr:hover {
+	background: aqua;
+}
+
+/* Zebra striping */
+ tr:nth-of-type(odd) {
+	background: #eee;
+}
+
+ tr:nth-of-type(even) td table tr {
+	background: white;
+}
+
+.errorMessage {
+color: red;
+font-size: 0.8em;
+} 
